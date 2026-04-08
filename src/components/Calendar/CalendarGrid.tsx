@@ -53,7 +53,7 @@ export function CalendarGrid({
 
   useEffect(() => {
     if (animDirection) {
-      const timer = setTimeout(() => setAnimDirection(null), 250);
+      const timer = setTimeout(() => setAnimDirection(null), 300);
       return () => clearTimeout(timer);
     }
   }, [animDirection, currentMonth]);
@@ -72,27 +72,27 @@ export function CalendarGrid({
         onPrev={onPrev} 
       />
       
-      <div className="overflow-hidden flex-1 flex flex-col relative w-full h-full">
+      <div className="overflow-hidden flex-1 flex flex-col relative w-full h-full pb-2">
         {/* Day of Week Headers */}
-        <div className="grid grid-cols-7 mb-2">
+        <div className="grid grid-cols-7 mb-4">
           {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map((d, i) => (
-            <div key={i} className={`flex justify-center text-[9px] md:text-[10px] font-bold tracking-wider ${i >= 5 ? 'text-[#00A8E8]' : 'text-gray-500'}`}>
+            <div key={i} className={`flex justify-center text-[10px] md:text-xs font-semibold tracking-wider ${i >= 5 ? 'text-gray-400' : 'text-gray-500'}`}>
               {d}
             </div>
           ))}
         </div>
 
         {/* Grid Container with Slide Animation */}
-        <div className="relative flex-1 min-h-[200px] w-full mt-2">
+        <div className="relative flex-1 min-h-[260px] md:min-h-[300px] w-full mt-2">
           <div 
             key={`${currentYear}-${currentMonth}`}
-            className="grid grid-cols-7 gap-y-2 md:gap-y-3 justify-items-center absolute inset-0 transition-all duration-250 ease-out"
+            className="grid grid-cols-7 gap-y-3 md:gap-y-4 justify-items-center absolute inset-0"
             style={{
               animation: animDirection === 'right' 
-                ? 'flipRight 400ms ease-out forwards' 
+                ? 'slideLeft 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards' 
                 : animDirection === 'left' 
-                  ? 'flipLeft 400ms ease-out forwards' 
-                  : 'none'
+                  ? 'slideRight 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards' 
+                  : 'fadeIn 300ms ease-out forwards'
             }}
             role="grid"
           >
@@ -144,13 +144,17 @@ export function CalendarGrid({
       </div>
       
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes flipRight {
-          0% { opacity: 0; transform: perspective(800px) rotateY(-90deg); transform-origin: left; }
-          100% { opacity: 1; transform: perspective(800px) rotateY(0deg); transform-origin: left; }
+        @keyframes slideLeft {
+          0% { opacity: 0; transform: translateX(15px); }
+          100% { opacity: 1; transform: translateX(0); }
         }
-        @keyframes flipLeft {
-          0% { opacity: 0; transform: perspective(800px) rotateY(90deg); transform-origin: right; }
-          100% { opacity: 1; transform: perspective(800px) rotateY(0deg); transform-origin: right; }
+        @keyframes slideRight {
+          0% { opacity: 0; transform: translateX(-15px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}} />
     </div>

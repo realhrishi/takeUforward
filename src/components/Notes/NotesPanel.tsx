@@ -49,22 +49,31 @@ export function NotesPanel({ notes, setNotes, selectionStart, selectionEnd }: No
     }
   };
 
-  const label = selectionStart ? formatDateDisplay(selectionStart) : "Select a date";
+  const label = selectionStart 
+    ? selectionEnd && selectionStart !== selectionEnd 
+      ? `${formatDateDisplay(selectionStart)} - ${formatDateDisplay(selectionEnd)}`
+      : formatDateDisplay(selectionStart) 
+    : "Select a date";
 
   return (
     <div className="w-full flex-1 flex flex-col pt-1">
-      <div className="text-[10px] md:text-xs font-bold text-gray-500 tracking-widest pl-1 mb-2">
-        NOTES <span className="text-gray-400 font-normal ml-1 normal-case tracking-normal">({label})</span>
+      <div className="flex flex-col mb-4 pl-1 border-l-2 border-blue-500">
+        <span className="text-[10px] md:text-xs font-bold text-gray-400 tracking-widest pl-2">
+          NOTES
+        </span>
+        <span className="text-sm md:text-base font-medium text-gray-800 pl-2 mt-0.5">
+          {label}
+        </span>
       </div>
       
       <textarea 
         disabled={!selectionStart}
         value={localContent}
         onChange={(e) => handleSave(e.target.value)}
-        placeholder={selectionStart ? "Type here..." : ""}
-        className="flex-1 w-full min-h-[160px] bg-transparent resize-none outline-none text-sm text-gray-800 disabled:opacity-50"
+        placeholder={selectionStart ? "Write your notes here..." : "Select a date or range to add notes."}
+        className="flex-1 w-full min-h-[160px] bg-transparent resize-none outline-none text-sm md:text-base text-gray-700 disabled:opacity-40 transition-opacity duration-300 custom-scrollbar"
         style={{
-          backgroundImage: "linear-gradient(transparent, transparent 31px, #e5e7eb 31px, #e5e7eb 32px)",
+          backgroundImage: "linear-gradient(transparent, transparent 31px, #f1f5f9 31px, #f1f5f9 32px)",
           backgroundSize: "100% 32px",
           lineHeight: "32px",
           paddingTop: "6px" 

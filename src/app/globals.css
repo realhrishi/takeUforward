@@ -1,8 +1,22 @@
 @import "tailwindcss";
 
+@theme {
+  --color-accent: #3b82f6; /* Modern Blue */
+  --color-accent-hover: #2563eb;
+  --color-accent-light: #eff6ff; /* For range highlighting */
+  --color-accent-muted: #93c5fd;
+  --color-text-main: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-text-light: #9ca3af;
+  --color-bg-base: #f8fafc;
+  --color-bg-card: #ffffff;
+  --border-radius-card: 16px;
+  --border-radius-cell: 50%;
+}
+
 body {
-  background-color: #f3f4f6; /* light gray desk */
-  color: #1f2937;
+  background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+  color: var(--color-text-main);
   margin: 0;
   padding: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -10,19 +24,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Smoother fonts */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Page flip animation */
-@keyframes monthEnter {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes monthExit {
-  from { opacity: 1; transform: translateY(0); }
-  to { opacity: 0; transform: translateY(5px); }
-}
-
+/* Base custom scrollbar for text areas/lists */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
@@ -30,18 +37,28 @@ body {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #94a3b8;
 }
 
 textarea {
-  /* Hides default scrollbar in some browsers */
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 textarea::-webkit-scrollbar {
   display: none;
+}
+
+/* Premium smooth shadow Utilities */
+.shadow-premium {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 10px 15px -3px rgba(0, 0, 0, 0.05),
+              0 25px 40px -5px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-inner-soft {
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.03);
 }
