@@ -1,4 +1,4 @@
-# 📅 Interactive Wall Calendar (TakeUForward Assignment)
+# 📅 Interactive Wall Calendar
 
 An interactive, modern **wall calendar experience** inspired by real-world paper calendars — built with a strong focus on **UI/UX, interaction design, and product thinking**.
 
