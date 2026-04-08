@@ -15,8 +15,8 @@ export default function Home() {
   const [selection, setSelection] = usePersistence<{start: string | null, end: string | null}>('wall-calendar:selection', { start: null, end: null });
   const [hoverDate, setHoverDate] = useState<string | null>(null);
   
-  const [displayedMonth, setDisplayedMonth] = useState(new Date().getMonth());
-  const [displayedYear, setDisplayedYear] = useState(new Date().getFullYear());
+  const [displayedMonth, setDisplayedMonth] = usePersistence<number>('wall-calendar:month', new Date().getMonth());
+  const [displayedYear, setDisplayedYear] = usePersistence<number>('wall-calendar:year', new Date().getFullYear());
   const [isDarkMode, setIsDarkMode] = usePersistence<boolean>('wall-calendar:theme-dark', false);
 
   const calendarRef = useRef<CalendarGridHandle>(null);
@@ -47,6 +47,20 @@ export default function Home() {
       >
         {isDarkMode ? <Sun size={18} className="group-hover:rotate-90 transition-transform duration-300" /> : <Moon size={18} className="group-hover:-rotate-12 transition-transform duration-300" />}
       </button>
+
+      {/* GitHub Repository Link */}
+      <a 
+        href="https://github.com/realhrishi/takeUforward" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 flex items-center justify-center p-2.5 sm:px-4 sm:py-2.5 rounded-full bg-white dark:bg-[#2A2622] shadow-sm hover:shadow-md border border-gray-200 dark:border-[#3A3632] text-gray-700 dark:text-[#EFE7DA] hover:text-black dark:hover:text-white transition-all duration-300 z-50 group hover:-translate-y-1"
+        aria-label="GitHub Repository"
+      >
+        <svg fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5 sm:mr-2 shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.748-1.025 2.748-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" />
+        </svg>
+        <span className="hidden sm:block text-[13px] font-semibold tracking-wide">Repository</span>
+      </a>
 
       {/* Main Calendar Card Entity */}
       <div className="w-full max-w-[900px] max-h-[96vh] bg-white dark:bg-[#F5F5F5] rounded-[16px] flex flex-col relative overflow-hidden transition-colors duration-500 shadow-premium dark:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] border border-transparent dark:border-black/5">
