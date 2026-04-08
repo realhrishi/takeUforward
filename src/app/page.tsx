@@ -42,14 +42,14 @@ export default function Home() {
       {/* Dark Mode Toggle */}
       <button 
         onClick={() => setIsDarkMode(!isDarkMode)}
-        className="absolute top-4 sm:top-8 right-4 sm:right-8 p-3 rounded-full bg-white dark:bg-[#2A2A2A] shadow-sm border border-gray-200 dark:border-[#3A3A3A] text-gray-800 dark:text-[#EAEAEA] hover:scale-105 transition-all z-50 group"
+        className="absolute top-4 sm:top-8 right-4 sm:right-8 p-3 rounded-full bg-white dark:bg-[#2A2622] shadow-sm border border-gray-200 dark:border-[#3A3632] text-gray-800 dark:text-[#EFE7DA] hover:scale-105 transition-all z-50 group"
         aria-label="Toggle Dark Mode"
       >
         {isDarkMode ? <Sun size={20} className="group-hover:rotate-90 transition-transform duration-300" /> : <Moon size={20} className="group-hover:-rotate-12 transition-transform duration-300" />}
       </button>
 
       {/* Main Calendar Card Entity */}
-      <div className="w-full max-w-5xl bg-white dark:bg-[#1C1C1C] rounded-[16px] flex flex-col relative overflow-hidden border border-gray-100/50 dark:border-[#2A2A2A] transition-colors duration-500 shadow-premium">
+      <div className="w-full max-w-5xl bg-white dark:bg-[#F5F5F5] rounded-[16px] flex flex-col relative overflow-hidden transition-colors duration-500 shadow-premium dark:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] border border-transparent dark:border-black/5">
         
         {/* Full-width continuous spiral binding at the top */}
         <SpiralBinding />
@@ -57,12 +57,14 @@ export default function Home() {
         <div className="flex flex-col md:flex-row w-full relative z-10 transition-colors duration-500">
           
           {/* Left Side: Hero Image Section (40%) */}
-          <div className="w-full md:w-[40%] flex flex-col z-10 bg-[#FAFAFA] dark:bg-[#1a1a1a]">
+          <div className="w-full md:w-[40%] flex flex-col z-10 bg-white dark:bg-[#F8F8F8] relative">
+            {/* Subtle dim overlay for the physical paper in dark mode */}
+            {isDarkMode && <div className="absolute inset-0 bg-black/[0.03] z-[5] pointer-events-none" />}
             <HeroPanel />
           </div>
           
           {/* Right Side: Calendar & Notes Container (60%) */}
-          <div className="w-full md:w-[60%] flex flex-col p-6 lg:p-10 bg-white dark:bg-[#222222] relative shadow-[-5px_0_30px_rgba(0,0,0,0.02)] dark:shadow-[-5px_0_20px_rgba(0,0,0,0.2)] z-20 md:rounded-l-[12px] border-l border-white dark:border-[#2c2c2c] transition-colors duration-500">
+          <div className="w-full md:w-[60%] flex flex-col p-6 lg:p-10 bg-white dark:bg-[#EAEAEA] relative shadow-[0_0_30px_rgba(0,0,0,0.03)] dark:shadow-[-5px_0_20px_rgba(0,0,0,0.1)] z-20 md:rounded-l-[12px] border-l border-gray-50 dark:border-[#E0E0E0] transition-colors duration-500">
             <div className="w-full transition-all duration-500">
               <CalendarGrid 
                 notes={notes}
@@ -81,7 +83,7 @@ export default function Home() {
                 isNotesOpen ? 'max-h-[400px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0 pt-0'
               }`}
             >
-              <div className="flex-1 bg-[#FAFAFA] dark:bg-[#1a1a1a] rounded-[12px] p-5 md:p-6 border border-gray-100 dark:border-[#2c2c2c] shadow-[0_8px_30px_rgb(0,0,0,0.02)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
+              <div className="flex-1 bg-[#FAFAFA] dark:bg-[#DFDFDF] rounded-[12px] p-5 md:p-6 border border-gray-100 dark:border-[#D5D5D5] shadow-[0_8px_30px_rgb(0,0,0,0.02)] dark:shadow-[0_8px_20px_rgb(0,0,0,0.06)]">
                 <NotesPanel 
                   notes={notes}
                   setNotes={setNotes}

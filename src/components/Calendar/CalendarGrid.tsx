@@ -99,7 +99,7 @@ export function CalendarGrid({
         {/* Day of Week Headers */}
         <div className="grid grid-cols-7 mb-4 relative z-10">
           {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map((d, i) => (
-            <div key={i} className={`flex justify-center text-[10px] md:text-xs font-semibold tracking-wider ${i >= 5 ? 'text-blue-600 dark:text-[#EAEAEA]' : 'text-gray-500 dark:text-[#A0A0A0]'}`}>
+            <div key={i} className={`flex justify-center text-[10px] md:text-xs font-semibold tracking-wider ${i >= 5 ? 'text-blue-600 dark:text-blue-700' : 'text-gray-500 dark:text-[#555]'}`}>
               {d}
             </div>
           ))}

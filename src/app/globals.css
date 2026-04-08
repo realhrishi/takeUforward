@@ -19,7 +19,7 @@ body {
   /* Light mode warm beige wall */
   background-image: 
     radial-gradient(circle at top right, rgba(255,255,255,0.6), transparent),
-    radial-gradient(rgba(0,0,0,0.01) 1px, transparent 1px);
+    radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
   background-size: 100% 100%, 20px 20px;
   color: var(--color-text-main);
   margin: 0;
@@ -35,11 +35,12 @@ body {
 }
 
 html.dark body {
-  background-color: #121212;
-  color: #EAEAEA;
-  /* Dark mode deep neutral wall + subtle elevation lamp glow */
+  background-color: #1E1B16;
+  color: #EFE7DA;
+  /* Dark mode dimly lit warm wall + soft light from top center */
   background-image: 
-    radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    radial-gradient(circle at top center, rgba(255, 244, 200, 0.15) 0%, transparent 60%);
+  background-size: 100% 100%;
 }
 
 /* Base custom scrollbar for text areas/lists */
@@ -74,10 +75,10 @@ textarea::-webkit-scrollbar {
 
 /* Notes Lined Paper Effect */
 .notes-lines {
-  background-image: linear-gradient(transparent, transparent 31px, #f1f5f9 31px, #f1f5f9 32px);
+  background-image: linear-gradient(transparent, transparent 31px, #e2e8f0 31px, #e2e8f0 32px);
 }
 html.dark .notes-lines {
-  background-image: linear-gradient(transparent, transparent 31px, #334155 31px, #334155 32px);
+  background-image: linear-gradient(transparent, transparent 31px, #cbd5e1 31px, #cbd5e1 32px);
 }
 
 /* Premium smooth shadow Utilities */
