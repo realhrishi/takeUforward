@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarCell } from './CalendarCell';
 import { useCalendar } from '../../hooks/useCalendar';
@@ -6,7 +6,7 @@ import { useDateRange } from '../../hooks/useDateRange';
 import { toISODate, isDateInNoteRange } from '../../lib/dateUtils';
 import { Note } from '../../lib/types';
 
-interface CalendarGridProps {
+export interface CalendarGridProps {
   initialMonth?: number;
   initialYear?: number;
   onMonthChange?: (month: number, year: number) => void;
@@ -18,7 +18,11 @@ interface CalendarGridProps {
   hoverDate: string | null;
 }
 
-export function CalendarGrid({
+export interface CalendarGridHandle {
+  goToMonth: (month: number, year: number) => void;
+}
+
+export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
   initialMonth = new Date().getMonth(),
   initialYear = new Date().getFullYear(),
   notes,
@@ -28,12 +32,17 @@ export function CalendarGrid({
   onHoverChange,
   onMonthChange,
   hoverDate
-}: CalendarGridProps) {
-  const { currentMonth, currentYear, days, nextMonth, prevMonth } = useCalendar(initialMonth, initialYear);
+}, ref) => {
+  const { currentMonth, currentYear, days, nextMonth, prevMonth, goToMonth } = useCalendar(initialMonth, initialYear);
+
+  useImperativeHandle(ref, () => ({
+    goToMonth
+  }));
 
   useEffect(() => {
     onMonthChange?.(currentMonth, currentYear);
-  }, [currentMonth, currentYear, onMonthChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentMonth, currentYear]);
 
   const { handleDateClick } = useDateRange(selectionStart, selectionEnd, onSelectionChange);
 
@@ -83,9 +92,12 @@ export function CalendarGrid({
     >
       <CalendarHeader 
         monthName={monthNames[currentMonth]} 
+        monthIndex={currentMonth}
         year={currentYear} 
         onNext={onNext} 
         onPrev={onPrev} 
+        onMonthSelect={(m) => goToMonth(m, currentYear)}
+        onYearSelect={(y) => goToMonth(currentMonth, y)}
       />
       
       <div 
@@ -187,4 +199,6 @@ export function CalendarGrid({
       `}} />
     </div>
   );
-}
+});
+
+CalendarGrid.displayName = 'CalendarGrid';

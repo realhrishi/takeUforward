@@ -22,8 +22,8 @@ export function CalendarCell({
   
   if (!isCurrentMonth) {
     return (
-      <div className="relative w-full h-10 md:h-12 flex items-center justify-center">
-        <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-[13px] md:text-[14px] text-gray-200 dark:text-[#B0B0B0] font-medium select-none pointer-events-none">
+      <div className="relative w-full h-8 md:h-9 flex items-center justify-center">
+        <div className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-[13px] md:text-[14px] text-gray-200 dark:text-[#B0B0B0] font-medium select-none pointer-events-none">
           {format(date, 'd')}
         </div>
       </div>
@@ -33,8 +33,8 @@ export function CalendarCell({
   const isToday = format(new Date(), 'yyyy-MM-dd') === dateStr;
 
   const innerStateClasses = clsx({
-    'text-gray-300 dark:text-[#B0B0B0] cursor-not-allowed': isPast,
-    'text-gray-700 dark:text-[#333333] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    'text-gray-400 dark:text-[#999999] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    'text-gray-800 dark:text-[#333333] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
     'bg-blue-500 text-white shadow-md z-20': isStart || isEnd,
     'text-blue-700 dark:text-blue-800': (isInRange || isHoverPreview) && !isStart && !isEnd,
     'ring-2 ring-gray-200 dark:ring-[#CCCCCC] ring-offset-1 dark:ring-offset-[#EAEAEA]': isToday && !isStart && !isEnd && !isInRange && !isHoverPreview,
@@ -42,13 +42,12 @@ export function CalendarCell({
 
   return (
     <div 
-      className="relative w-full h-10 md:h-12 flex items-center justify-center group cursor-pointer"
-      onClick={() => !isPast && onClick(dateStr)}
-      onMouseEnter={() => !isPast && onMouseEnter(dateStr)}
-      title={isPast ? "Past dates cannot be selected" : ""}
+      className="relative w-full h-8 md:h-9 flex items-center justify-center group cursor-pointer"
+      onClick={() => onClick(dateStr)}
+      onMouseEnter={() => onMouseEnter(dateStr)}
       role="gridcell"
       aria-selected={isStart || isEnd || isInRange}
-      aria-disabled={isPast}
+      aria-disabled={false}
     >
       {/* Background connector for range when start or end is selected */}
       {(isInRange || isStart || isEnd || isHoverPreview) && (
@@ -65,7 +64,7 @@ export function CalendarCell({
       )}
       
       {/* Circle Container for hover/active/today states */}
-      <div className={clsx("flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full transition-all duration-200 ease-out font-bold", innerStateClasses)}>
+      <div className={clsx("flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition-all duration-200 ease-out font-bold", innerStateClasses)}>
         <span>{format(date, 'd')}</span>
         
         {hasNote && (

@@ -1,24 +1,51 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { IconButton } from '../UI/IconButton';
 
 interface CalendarHeaderProps {
   monthName: string;
+  monthIndex: number;
   year: number;
   onNext: () => void;
   onPrev: () => void;
+  onMonthSelect: (m: number) => void;
+  onYearSelect: (y: number) => void;
 }
 
-export function CalendarHeader({ monthName, year, onNext, onPrev }: CalendarHeaderProps) {
+const generateYears = () => {
+    const start = 1900;
+    const end = 2100;
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+};
+
+const monthNames = [
+  "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+  "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+];
+
+export function CalendarHeader({ monthIndex, year, onNext, onPrev, onMonthSelect, onYearSelect }: CalendarHeaderProps) {
   return (
     <div className="flex justify-between items-end mb-6 relative z-20 w-full px-2">
-      <div className="flex flex-col">
-        <div className="text-blue-600 dark:text-blue-700 font-semibold tracking-widest text-sm md:text-base uppercase mb-1 transition-colors duration-300">
-          {year}
+      <div className="flex flex-col relative group gap-1.5">
+        <select 
+           value={year}
+           onChange={(e) => onYearSelect(Number(e.target.value))}
+           className="appearance-none bg-white dark:bg-[#F5F5F5] border border-gray-200 dark:border-[#EAEAEA] text-gray-700 dark:text-[#333333] font-bold tracking-widest text-xs uppercase outline-none cursor-pointer hover:bg-[#F3F4F6] dark:hover:bg-[#EBEBEB] focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-100/50 rounded-xl px-3 py-1.5 shadow-sm transition-all focus:border-blue-300 w-fit"
+           aria-label="Select Year"
+        >
+           {generateYears().map(y => <option key={y} value={y} className="text-[#222222] bg-white dark:bg-[#F5F5F5] font-sans font-medium">{y}</option>)}
+        </select>
+        <div className="relative flex items-center">
+          <select 
+             value={monthIndex}
+             onChange={(e) => onMonthSelect(Number(e.target.value))}
+             className="appearance-none bg-white dark:bg-[#F5F5F5] border border-gray-200 dark:border-[#EAEAEA] text-2xl md:text-3xl font-black text-[#222222] dark:text-[#111111] tracking-tight leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.02)] outline-none cursor-pointer hover:bg-[#F3F4F6] dark:hover:bg-[#EBEBEB] focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-100/50 rounded-xl px-4 py-2 shadow-sm transition-all pr-10"
+             aria-label="Select Month"
+          >
+             {monthNames.map((m, i) => <option key={i} value={i} className="text-[#222222] bg-white dark:bg-[#F5F5F5] font-sans font-semibold text-lg">{m}</option>)}
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 pointer-events-none" />
         </div>
-        <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-[#222222] tracking-tight leading-none drop-shadow-sm dark:drop-shadow-none transition-colors duration-300" aria-live="polite">
-          {monthName}
-        </h2>
       </div>
       
       <div className="flex gap-3 items-center mb-1">
