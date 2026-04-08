@@ -22,31 +22,27 @@ export function CalendarCell({
   
   if (!isCurrentMonth) {
     return (
-      <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-[13px] md:text-[14px] text-gray-200 pointer-events-none select-none font-medium">
-        {format(date, 'd')}
+      <div className="relative w-full h-10 md:h-12 flex items-center justify-center">
+        <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-[13px] md:text-[14px] text-gray-200 font-medium">
+          {format(date, 'd')}
+        </div>
       </div>
     );
   }
 
   const isToday = format(new Date(), 'yyyy-MM-dd') === dateStr;
 
-  const baseClasses = "relative flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-[13px] md:text-[14px] transition-all duration-200 select-none cursor-pointer font-bold z-10";
-  
-  const stateClasses = clsx({
+  const innerStateClasses = clsx({
     'text-gray-300 cursor-not-allowed': isPast,
-    'text-gray-700 hover:bg-gray-100/80 hover:scale-[1.05] hover:shadow-sm rounded-full': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
-    'bg-blue-500 text-white shadow-md': isStart || isEnd,
-    'rounded-l-full': isStart && !isEnd,
-    'rounded-r-full': isEnd && !isStart,
-    'rounded-full': (isStart && isEnd) || (!isStart && !isEnd && !isInRange && !isHoverPreview),
-    'bg-blue-50 text-blue-700': (isInRange || isHoverPreview) && !isStart && !isEnd,
-    'border-b-2 border-dashed border-blue-400': isHoverPreview && !isStart && !isEnd && !isInRange,
-    'ring-2 ring-gray-200 ring-offset-2 rounded-full': isToday && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    'text-gray-700 hover:bg-gray-100 hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    'bg-blue-500 text-white shadow-md z-20': isStart || isEnd,
+    'text-blue-700': (isInRange || isHoverPreview) && !isStart && !isEnd,
+    'ring-2 ring-gray-200 ring-offset-1': isToday && !isStart && !isEnd && !isInRange && !isHoverPreview,
   });
 
   return (
     <div 
-      className={clsx(baseClasses, stateClasses)}
+      className="relative w-full h-10 md:h-12 flex items-center justify-center group cursor-pointer"
       onClick={() => !isPast && onClick(dateStr)}
       onMouseEnter={() => !isPast && onMouseEnter(dateStr)}
       title={isPast ? "Past dates cannot be selected" : ""}
@@ -55,21 +51,30 @@ export function CalendarCell({
       aria-disabled={isPast}
     >
       {/* Background connector for range when start or end is selected */}
-      {(isStart && !isEnd && (isInRange || isHoverPreview)) && (
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-blue-50 -z-10" />
-      )}
-      {(isEnd && !isStart) && (
-        <div className="absolute left-0 top-0 bottom-0 w-1/2 bg-blue-50 -z-10" />
-      )}
-      
-      <span className="z-20 relative">{format(date, 'd')}</span>
-      
-      {hasNote && (
+      {(isInRange || isStart || isEnd || isHoverPreview) && (
         <div className={clsx(
-          "absolute bottom-1 w-1 h-1 rounded-full z-20 shadow-sm",
-          (isStart || isEnd) ? "bg-white" : "bg-blue-500"
+          "absolute top-1/2 -translate-y-1/2 h-8 md:h-9 bg-blue-50/80 -z-10 transition-all duration-300",
+          {
+            'left-1/2 right-0 rounded-l-full': isStart && !isEnd && (isInRange || isHoverPreview),
+            'left-0 right-1/2 rounded-r-full': isEnd && !isStart,
+            'left-0 right-0': (isInRange || isHoverPreview) && !isStart && !isEnd,
+            'inset-0 bg-transparent': isStart && isEnd,
+            'left-0 right-0 border-b-2 border-dashed border-blue-400 bg-transparent': isHoverPreview && !isStart && !isEnd && !isInRange
+          }
         )} />
       )}
+      
+      {/* Circle Container for hover/active/today states */}
+      <div className={clsx("flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full transition-all duration-200 ease-out font-bold", innerStateClasses)}>
+        <span>{format(date, 'd')}</span>
+        
+        {hasNote && (
+          <div className={clsx(
+            "absolute bottom-0 w-1.5 h-1.5 rounded-full z-20 shadow-sm",
+            (isStart || isEnd) ? "bg-white" : "bg-blue-500"
+          )} />
+        )}
+      </div>
     </div>
   );
 }

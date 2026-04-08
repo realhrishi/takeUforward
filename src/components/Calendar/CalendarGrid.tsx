@@ -86,7 +86,7 @@ export function CalendarGrid({
         <div className="relative flex-1 min-h-[260px] md:min-h-[300px] w-full mt-2">
           <div 
             key={`${currentYear}-${currentMonth}`}
-            className="grid grid-cols-7 gap-y-3 md:gap-y-4 justify-items-center absolute inset-0"
+            className="grid grid-cols-7 gap-y-2 absolute inset-0"
             style={{
               animation: animDirection === 'right' 
                 ? 'slideLeft 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards' 
