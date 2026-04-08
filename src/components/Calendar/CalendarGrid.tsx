@@ -120,7 +120,7 @@ export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
         </div>
 
         {/* Day of Week Headers */}
-        <div className="grid grid-cols-7 mb-4 relative z-10">
+        <div className="grid grid-cols-7 mb-2 md:mb-4 relative z-10">
           {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map((d, i) => (
             <div key={i} className={`flex justify-center text-[10px] md:text-xs font-semibold tracking-wider ${i >= 5 ? 'text-blue-600 dark:text-blue-700' : 'text-gray-500 dark:text-[#555]'}`}>
               {d}
@@ -129,10 +129,10 @@ export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
         </div>
 
         {/* Grid Container with Vertical Slide Animation */}
-        <div className="relative flex-1 min-h-[260px] md:min-h-[300px] w-full mt-2 z-10">
+        <div className="relative flex-1 min-h-[250px] md:min-h-[300px] w-full mt-1 md:mt-2 z-10">
           <div 
             key={`${currentYear}-${currentMonth}`}
-            className="grid grid-cols-7 gap-y-2 absolute inset-0"
+            className="grid grid-cols-7 gap-y-1 md:gap-y-2 absolute inset-0"
             style={{
               animation: animDirection === 'flipOutUp' 
                 ? 'flipOutUp 150ms cubic-bezier(0.4, 0, 1, 1) forwards' 

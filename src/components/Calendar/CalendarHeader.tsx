@@ -25,7 +25,7 @@ const monthNames = [
 
 export function CalendarHeader({ monthIndex, year, onNext, onPrev, onMonthSelect, onYearSelect }: CalendarHeaderProps) {
   return (
-    <div className="flex justify-between items-end mb-6 relative z-20 w-full px-2">
+    <div className="flex flex-wrap justify-between items-center sm:items-end mb-4 md:mb-6 relative z-20 w-full px-1 md:px-2 gap-4">
       <div className="flex flex-col relative group gap-1.5">
         <select 
            value={year}

@@ -79,13 +79,13 @@ export function CalendarCell({
       )}
       
       {/* Circle Container for hover/active/today states */}
-      <div className={clsx("flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition-all duration-200 ease-out", innerStateClasses)}>
+      <div className={clsx("flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full transition-all duration-200 ease-out", innerStateClasses)}>
         <span className={clsx("leading-none", (isHoliday && !isStart && !isEnd) ? "font-extrabold" : "font-bold")}>{format(date, 'd')}</span>
         
         {/* Indicators */}
-        <div className="absolute bottom-[2px] md:bottom-1 flex gap-1 z-20">
-           {hasNote && <div className={clsx("w-[5px] h-[5px] rounded-full shadow-sm", (isStart || isEnd) ? "bg-white" : "bg-blue-500 shadow-blue-500/50")} />}
-           {isHoliday && <div className={clsx("w-[5px] h-[5px] rounded-full shadow-sm", (isStart || isEnd) ? "bg-white/90" : "bg-red-500 shadow-red-500/50")} />}
+        <div className="absolute bottom-0 md:bottom-1 flex gap-1 z-20">
+           {hasNote && <div className={clsx("w-[4px] h-[4px] md:w-[5px] md:h-[5px] rounded-full shadow-sm", (isStart || isEnd) ? "bg-white" : "bg-blue-500 shadow-blue-500/50")} />}
+           {isHoliday && <div className={clsx("w-[4px] h-[4px] md:w-[5px] md:h-[5px] rounded-full shadow-sm", (isStart || isEnd) ? "bg-white/90" : "bg-red-500 shadow-red-500/50")} />}
         </div>
       </div>
     </div>
