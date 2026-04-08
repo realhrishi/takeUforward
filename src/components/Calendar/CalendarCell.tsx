@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import { DayCell } from '../../lib/types';
+import { getHolidayName } from '../../lib/holidays';
 
 interface CalendarCellProps {
   cell: DayCell;
@@ -31,12 +32,25 @@ export function CalendarCell({
   }
 
   const isToday = format(new Date(), 'yyyy-MM-dd') === dateStr;
+  const holidayName = getHolidayName(dateStr);
+  const isSunday = date.getDay() === 0;
+  const isHoliday = !!holidayName;
+  const isRedDay = isSunday || isHoliday;
 
   const innerStateClasses = clsx({
-    'text-gray-400 dark:text-[#999999] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
-    'text-gray-800 dark:text-[#333333] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    // Selected Range (Highest priority)
     'bg-blue-500 text-white shadow-md z-20': isStart || isEnd,
     'text-blue-700 dark:text-blue-800': (isInRange || isHoverPreview) && !isStart && !isEnd,
+    
+    // Unselected Past
+    'text-gray-400 dark:text-[#999999] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': isPast && !isStart && !isEnd && !isInRange && !isHoverPreview && !isRedDay,
+    'text-red-400 dark:text-red-400/60 hover:bg-red-50 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': isPast && isRedDay && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    
+    // Unselected Present/Future
+    'text-gray-800 dark:text-[#333333] hover:bg-gray-100 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview && !isRedDay,
+    'text-red-600 dark:text-[#E84C3D] hover:bg-red-50 dark:hover:bg-[#DDDDDD] hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && isRedDay && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    
+    // Today Ring
     'ring-2 ring-gray-200 dark:ring-[#CCCCCC] ring-offset-1 dark:ring-offset-[#EAEAEA]': isToday && !isStart && !isEnd && !isInRange && !isHoverPreview,
   });
 
@@ -45,6 +59,7 @@ export function CalendarCell({
       className="relative w-full h-8 md:h-9 flex items-center justify-center group cursor-pointer"
       onClick={() => onClick(dateStr)}
       onMouseEnter={() => onMouseEnter(dateStr)}
+      title={holidayName || undefined}
       role="gridcell"
       aria-selected={isStart || isEnd || isInRange}
       aria-disabled={false}
@@ -64,15 +79,14 @@ export function CalendarCell({
       )}
       
       {/* Circle Container for hover/active/today states */}
-      <div className={clsx("flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition-all duration-200 ease-out font-bold", innerStateClasses)}>
-        <span>{format(date, 'd')}</span>
+      <div className={clsx("flex items-center justify-center w-7 h-7 md:w-8 md:h-8 rounded-full transition-all duration-200 ease-out", innerStateClasses)}>
+        <span className={clsx("leading-none", (isHoliday && !isStart && !isEnd) ? "font-extrabold" : "font-bold")}>{format(date, 'd')}</span>
         
-        {hasNote && (
-          <div className={clsx(
-            "absolute bottom-0 w-1.5 h-1.5 rounded-full z-20 shadow-sm",
-            (isStart || isEnd) ? "bg-white" : "bg-blue-500 shadow-blue-500/50"
-          )} />
-        )}
+        {/* Indicators */}
+        <div className="absolute bottom-[2px] md:bottom-1 flex gap-1 z-20">
+           {hasNote && <div className={clsx("w-[5px] h-[5px] rounded-full shadow-sm", (isStart || isEnd) ? "bg-white" : "bg-blue-500 shadow-blue-500/50")} />}
+           {isHoliday && <div className={clsx("w-[5px] h-[5px] rounded-full shadow-sm", (isStart || isEnd) ? "bg-white/90" : "bg-red-500 shadow-red-500/50")} />}
+        </div>
       </div>
     </div>
   );

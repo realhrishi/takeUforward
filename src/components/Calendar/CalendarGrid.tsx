@@ -46,24 +46,34 @@ export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
 
   const { handleDateClick } = useDateRange(selectionStart, selectionEnd, onSelectionChange);
 
-  const [animDirection, setAnimDirection] = useState<'up' | 'down' | null>(null);
+  const [animDirection, setAnimDirection] = useState<string | null>(null);
+  const flipTimer = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTime = useRef(0);
 
   const onNext = () => {
-    setAnimDirection('up');
-    nextMonth();
+    if (flipTimer.current) return;
+    setAnimDirection('flipOutUp');
+    flipTimer.current = setTimeout(() => {
+      nextMonth();
+      setAnimDirection('flipInUp');
+      flipTimer.current = null;
+    }, 150);
   };
 
   const onPrev = () => {
-    setAnimDirection('down');
-    prevMonth();
+    if (flipTimer.current) return;
+    setAnimDirection('flipOutDown');
+    flipTimer.current = setTimeout(() => {
+      prevMonth();
+      setAnimDirection('flipInDown');
+      flipTimer.current = null;
+    }, 150);
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     const now = Date.now();
-    if (now - lastScrollTime.current < 600) return; // Wait 600ms between scrolls to prevent hyper-scrolling
+    if (now - lastScrollTime.current < 600 || flipTimer.current) return; 
     
-    // Some trackpads send small deltas, require a reasonable threshold
     if (e.deltaY > 15) {
       onNext();
       lastScrollTime.current = now;
@@ -74,11 +84,11 @@ export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
   };
 
   useEffect(() => {
-    if (animDirection) {
-      const timer = setTimeout(() => setAnimDirection(null), 400);
+    if (animDirection && animDirection.startsWith('flipIn')) {
+      const timer = setTimeout(() => setAnimDirection(null), 200);
       return () => clearTimeout(timer);
     }
-  }, [animDirection, currentMonth]);
+  }, [animDirection]);
 
   const monthNames = [
     "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
@@ -124,11 +134,15 @@ export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
             key={`${currentYear}-${currentMonth}`}
             className="grid grid-cols-7 gap-y-2 absolute inset-0"
             style={{
-              animation: animDirection === 'up' 
-                ? 'slideUp 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards' 
-                : animDirection === 'down' 
-                  ? 'slideDown 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards' 
-                  : 'fadeIn 400ms ease-out forwards'
+              animation: animDirection === 'flipOutUp' 
+                ? 'flipOutUp 150ms cubic-bezier(0.4, 0, 1, 1) forwards' 
+                : animDirection === 'flipInUp'
+                  ? 'flipInUp 200ms cubic-bezier(0, 0, 0.2, 1) forwards'
+                  : animDirection === 'flipOutDown'
+                    ? 'flipOutDown 150ms cubic-bezier(0.4, 0, 1, 1) forwards'
+                    : animDirection === 'flipInDown'
+                      ? 'flipInDown 200ms cubic-bezier(0, 0, 0.2, 1) forwards'
+                      : 'fadeIn 300ms ease-out forwards'
             }}
             role="grid"
           >
@@ -184,13 +198,21 @@ export const CalendarGrid = forwardRef<CalendarGridHandle, CalendarGridProps>(({
       </div>
       
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slideUp {
-          0% { opacity: 0; transform: translateY(20px) scale(0.98); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes flipOutUp {
+          0% { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1); transform-origin: top; filter: brightness(1); }
+          100% { opacity: 0; transform: perspective(1000px) rotateX(20deg) scale(0.95); transform-origin: top; filter: brightness(0.85); }
         }
-        @keyframes slideDown {
-          0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes flipInUp {
+          0% { opacity: 0; transform: perspective(1000px) rotateX(-20deg) scale(0.95); transform-origin: top; filter: brightness(0.85); }
+          100% { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1); transform-origin: top; filter: brightness(1); }
+        }
+        @keyframes flipOutDown {
+          0% { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1); transform-origin: top; filter: brightness(1); }
+          100% { opacity: 0; transform: perspective(1000px) rotateX(-20deg) scale(0.95); transform-origin: top; filter: brightness(0.85); }
+        }
+        @keyframes flipInDown {
+          0% { opacity: 0; transform: perspective(1000px) rotateX(20deg) scale(0.95); transform-origin: top; filter: brightness(0.85); }
+          100% { opacity: 1; transform: perspective(1000px) rotateX(0deg) scale(1); transform-origin: top; filter: brightness(1); }
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: scale(0.98); }

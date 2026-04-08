@@ -3,6 +3,7 @@ import { usePersistence } from '../../hooks/usePersistence';
 import { Note } from '../../lib/types';
 import { v4 as uuidv4 } from 'uuid';
 import { formatDateDisplay } from '../../lib/dateUtils';
+import { getHolidayName } from '../../lib/holidays';
 
 interface NotesPanelProps {
   notes: Note[];
@@ -55,14 +56,24 @@ export function NotesPanel({ notes, setNotes, selectionStart, selectionEnd }: No
       : formatDateDisplay(selectionStart) 
     : "Select a date";
 
+  const holidayLabel = (selectionStart && (!selectionEnd || selectionStart === selectionEnd)) 
+    ? getHolidayName(selectionStart) 
+    : null;
+
   return (
     <div className="w-full flex-1 flex flex-col pt-1">
       <div className="flex flex-col mb-4 pl-1 border-l-2 border-blue-500">
         <span className="text-[10px] md:text-xs font-bold text-gray-400 dark:text-gray-500 tracking-widest pl-2">
           NOTES
         </span>
-        <span className="text-sm md:text-base font-medium text-gray-800 dark:text-[#333333] pl-2 mt-0.5">
+        <span className="text-sm md:text-base font-medium text-gray-800 dark:text-[#333333] pl-2 mt-0.5 flex items-center gap-2">
           {label}
+          {holidayLabel && (
+            <span className="text-[10px] md:text-[11px] font-medium text-gray-400 dark:text-gray-500 flex items-center gap-1.5 ml-auto mr-2 tracking-wide uppercase">
+              <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-red-400 dark:bg-red-500 opacity-80" />
+              {holidayLabel}
+            </span>
+          )}
         </span>
       </div>
       
