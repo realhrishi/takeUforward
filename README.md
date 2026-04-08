@@ -1,36 +1,167 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📅 Interactive Wall Calendar (TakeUForward Assignment)
 
-## Getting Started
+An interactive, modern **wall calendar experience** inspired by real-world paper calendars — built with a strong focus on **UI/UX, interaction design, and product thinking**.
 
-First, run the development server:
+---
+
+## ✨ Overview
+
+This project goes beyond a basic calendar implementation and aims to replicate a **physical wall calendar** in a digital interface.
+
+It combines:
+
+* 🧱 Realistic design (wall + paper metaphor)
+* 🎯 Smooth interactions
+* 🇮🇳 Context-aware features (Indian holidays)
+* ⚡ Performance and clean state management
+
+---
+
+## 🎨 Design Philosophy
+
+> “A calendar is not just a grid — it’s an experience.”
+
+* 📜 Calendar behaves like a **paper sheet**
+* 🧱 Background mimics a **wall surface**
+* 🌙 Dark mode represents **lighting change**, not color inversion
+* 🎯 Focus on **minimal, elegant, and realistic UI**
+
+---
+
+## 🚀 Features
+
+### 📆 Core Functionality
+
+* Single date selection
+* Range selection (start → end)
+* Smooth hover preview
+* Month navigation (buttons + scroll)
+
+---
+
+### 🧠 Smart UX Features
+
+* 📍 **"Go to Today" button**
+* 🧭 Month & year dropdown navigation
+* 🔄 Scroll-based month switching
+* 🧼 Clear selection functionality
+
+---
+
+### 📝 Notes System
+
+* Add and view notes for selected dates
+* Persistent state handling
+* Context-aware UI
+
+---
+
+### 🇮🇳 Indian Holiday Integration
+
+* Major Indian holidays highlighted
+* Red-letter day markers
+* Holiday names displayed dynamically (e.g., *Independence Day*)
+
+---
+
+### 🎭 Interaction & Animation
+
+* Smooth transitions between months
+* Scroll-triggered animated switching
+* Subtle hover and micro-interactions
+
+---
+
+### 🕒 Live Clock
+
+* Displays real-time IST (Indian Standard Time)
+* Updates every second
+
+---
+
+### 🌗 Theme System
+
+* Light mode: warm beige wall + white calendar
+* Dark mode: dim lighting effect with soft illumination
+* Maintains physical realism across themes
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend:** React / Next.js
+* **Styling:** Tailwind CSS
+* **State Management:** React Hooks
+* **Date Handling:** Native JS Date APIs
+
+---
+
+## 📂 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+ ├── components/
+ │   ├── Calendar/
+ │   ├── UI/
+ │   └── Notes/
+ ├── hooks/
+ │   └── useCalendar.ts
+ ├── utils/
+ │   └── dateHelpers.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Setup Instructions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Clone repository
+git clone https://github.com/realhrishi/takeUforward
 
-## Learn More
+# Navigate to project
+cd takeUforward
 
-To learn more about Next.js, take a look at the following resources:
+# Install dependencies
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Run development server
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🎥 Demo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+👉 (Add your demo video link here)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 💡 Key Highlights
+
+* Designed with a **product-first mindset**
+* Focus on **real-world usability and aesthetics**
+* Clean separation of logic and UI
+* Handles edge cases and interaction states carefully
+
+---
+
+## 🚀 Future Improvements
+
+* 📅 Dynamic holiday API integration
+* 🎨 Theme extraction from hero image
+* 📱 Mobile-first optimizations
+* 🔔 Reminders & notifications
+
+---
+
+## 👨‍💻 Author
+
+**Hrishiraj Chowdhury**
+
+---
+
+## ⭐ Final Note
+
+This project reflects not just coding ability, but **attention to detail, UX thinking, and product design awareness**.
+
+---
