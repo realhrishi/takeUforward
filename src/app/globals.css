@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --color-accent: #3b82f6; /* Modern Blue */
   --color-accent-hover: #2563eb;
@@ -15,13 +17,11 @@
 }
 
 body {
-  background-color: #F5F1E8;
   /* Light mode warm beige wall */
   background-image: 
     radial-gradient(circle at top right, rgba(255,255,255,0.6), transparent),
     radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
   background-size: 100% 100%, 20px 20px;
-  color: var(--color-text-main);
   margin: 0;
   padding: 0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -36,13 +36,12 @@ body {
 }
 
 html.dark body {
-  background-color: #1E1B16;
-  color: #EFE7DA;
   /* Dark mode dimly lit warm wall + soft light from top center */
   background-image: 
     radial-gradient(circle at top center, rgba(255, 244, 200, 0.15) 0%, transparent 60%);
   background-size: 100% 100%;
 }
+
 
 /* Base custom scrollbar for text areas/lists */
 .custom-scrollbar::-webkit-scrollbar {

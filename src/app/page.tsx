@@ -26,22 +26,21 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    // Sync dark mode purely on mount and state change
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  if (!mounted) return <div className="min-h-screen bg-transparent" />;
+  if (!mounted) return <div className="min-h-[100dvh] w-full bg-transparent" />;
 
   return (
     <main className="min-h-[100dvh] md:h-[100dvh] w-full flex items-start md:items-center justify-center p-0 sm:p-4 md:p-4 relative overflow-x-hidden md:overflow-hidden bg-[#F5F1E8] dark:bg-[#1E1B16]">
       {/* Dark Mode Toggle */}
       <button 
-        onClick={() => setIsDarkMode(!isDarkMode)}
+        onClick={() => {
+          const next = !isDarkMode;
+          setIsDarkMode(next);
+          if (next) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }}
         className="absolute top-4 sm:top-6 right-4 sm:right-6 p-2.5 rounded-full bg-white dark:bg-[#2A2622] shadow-sm border border-gray-200 dark:border-[#3A3632] text-gray-800 dark:text-[#EFE7DA] hover:scale-105 transition-all z-50 group"
         aria-label="Toggle Dark Mode"
       >
@@ -125,7 +124,7 @@ export default function Home() {
 
             {/* Static Notes Panel (No Layout Shift) */}
             <div className="mt-4 md:mt-4 transition-all duration-500 relative flex-shrink-0">
-              <div className="w-full bg-[#FAFAFA] dark:bg-[#DFDFDF] rounded-[12px] p-3 md:p-5 border border-gray-100 dark:border-[#D5D5D5] shadow-[0_8px_30px_rgb(0,0,0,0.02)] min-h-[140px] md:min-h-[180px]">
+              <div className="w-full bg-[#FAFAFA] dark:bg-[#DFDFDF] rounded-[12px] p-3 md:p-5 border border-gray-100 dark:border-[#D5D5D5] shadow-[0_8px_30px_rgb(0,0,0,0.02)] h-[140px] md:h-[180px] flex flex-col overflow-hidden">
                 <NotesPanel 
                   notes={notes}
                   setNotes={setNotes}

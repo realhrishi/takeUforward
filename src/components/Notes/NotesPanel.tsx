@@ -82,7 +82,7 @@ export function NotesPanel({ notes, setNotes, selectionStart, selectionEnd }: No
         value={localContent}
         onChange={(e) => handleSave(e.target.value)}
         placeholder={selectionStart ? "Write your notes here..." : "Select a date or range to add notes."}
-        className="flex-1 w-full min-h-[160px] bg-transparent resize-none outline-none text-sm md:text-base text-gray-700 dark:text-[#333333] disabled:opacity-40 transition-opacity duration-300 custom-scrollbar notes-lines"
+        className="flex-1 w-full min-h-0 overflow-y-auto bg-transparent resize-none outline-none text-sm md:text-base text-gray-700 dark:text-[#333333] disabled:opacity-40 transition-opacity duration-300 custom-scrollbar notes-lines pb-2"
         style={{
           backgroundSize: "100% 32px",
           lineHeight: "32px",
