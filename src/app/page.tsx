@@ -29,13 +29,13 @@ export default function Home() {
         
         <div className="flex flex-col md:flex-row w-full bg-white relative z-10">
           
-          {/* Left Side: Hero Image Section */}
-          <div className="w-full md:w-[42%] flex flex-col border-b md:border-b-0 md:border-r border-gray-100">
-            <HeroPanel month={displayedMonth} year={displayedYear} />
+          {/* Left Side: Hero Image Section (40%) */}
+          <div className="w-full md:w-[40%] flex flex-col border-b md:border-b-0 md:border-r border-gray-100">
+            <HeroPanel />
           </div>
           
-          {/* Right Side: Calendar & Notes Container */}
-          <div className="w-full md:w-[58%] flex flex-col p-6 lg:p-10 bg-white relative">
+          {/* Right Side: Calendar & Notes Container (60%) */}
+          <div className="w-full md:w-[60%] flex flex-col p-6 lg:p-10 bg-white relative">
             <div className="w-full">
               <CalendarGrid 
                 notes={notes}
@@ -48,7 +48,8 @@ export default function Home() {
               />
             </div>
 
-            <div className="mt-8 border-t border-gray-100 pt-6 flex-1 min-h-[220px]">
+            {/* Clean layered card style for notes */}
+            <div className="mt-8 flex-1 min-h-[220px] bg-slate-50/50 rounded-2xl p-5 border border-slate-100 shadow-inner-soft hover:shadow-sm transition-shadow duration-300">
               <NotesPanel 
                 notes={notes}
                 setNotes={setNotes}
