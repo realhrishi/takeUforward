@@ -29,7 +29,7 @@ export default function Home() {
   if (!mounted) return <div className="min-h-[100dvh] w-full bg-transparent" />;
 
   return (
-    <main className="min-h-[100dvh] md:h-[100dvh] w-full flex items-start md:items-center justify-center p-0 sm:p-4 md:p-4 relative overflow-x-hidden md:overflow-hidden bg-[#F5F1E8] dark:bg-[#1E1B16]">
+    <main className="min-h-[100dvh] w-full flex items-start md:items-center justify-center p-4 sm:p-6 md:p-8 relative overflow-x-hidden bg-[#F5F1E8] dark:bg-[#1E1B16]">
       {/* Dark Mode Toggle */}
       <button 
         onClick={() => {
@@ -62,12 +62,12 @@ export default function Home() {
       </a>
 
       {/* Main Calendar Card Entity */}
-      <div className="w-full md:max-w-[900px] min-h-[100dvh] md:min-h-0 md:max-h-[96vh] bg-[#FFFFFF] dark:bg-[#F5F5F5] rounded-none sm:rounded-[16px] flex flex-col relative overflow-hidden transition-colors duration-500 shadow-premium dark:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] border border-transparent dark:border-black/5 pb-16 md:pb-0">
+      <div className="w-full md:max-w-[900px] min-h-[100dvh] md:min-h-0 bg-[#FFFFFF] dark:bg-[#F5F5F5] rounded-[16px] flex flex-col relative overflow-hidden transition-colors duration-500 shadow-premium dark:shadow-[0_20px_60px_-10px_rgba(0,0,0,0.4)] border border-transparent dark:border-black/5 pb-2 md:pb-6">
         
         {/* Full-width continuous spiral binding at the top */}
         <SpiralBinding />
         
-        <div className="flex flex-col md:flex-row w-full flex-1 relative z-10 transition-colors duration-500 h-full max-h-full">
+        <div className="flex flex-col md:flex-row w-full relative z-10 transition-colors duration-500">
           
           {/* Top/Left Side: Hero Image Section */}
           <div className="w-full h-[160px] md:h-auto md:w-[35%] flex flex-col z-10 bg-white dark:bg-[#F8F8F8] relative shrink-0">
@@ -107,7 +107,7 @@ export default function Home() {
                </div>
             </div>
 
-            <div className="w-full transition-all duration-500 flex-1 flex flex-col min-h-[250px]">
+            <div className="w-full transition-all duration-500 flex flex-col min-h-[250px]">
               <CalendarGrid 
                 ref={calendarRef}
                 initialMonth={displayedMonth}
