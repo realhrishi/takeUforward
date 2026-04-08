@@ -35,9 +35,7 @@ export function CalendarGrid({
     onMonthChange?.(currentMonth, currentYear);
   }, [currentMonth, currentYear, onMonthChange]);
 
-  const { 
-    handleDateClick, handleDateHover 
-  } = useDateRange(selectionStart, selectionEnd, onSelectionChange);
+  const { handleDateClick } = useDateRange(selectionStart, selectionEnd, onSelectionChange);
 
   const [animDirection, setAnimDirection] = useState<'up' | 'down' | null>(null);
   const lastScrollTime = useRef(0);
@@ -90,9 +88,12 @@ export function CalendarGrid({
         onPrev={onPrev} 
       />
       
-      <div className="overflow-hidden flex-1 flex flex-col relative w-full h-full pb-2 select-none group">
+      <div 
+        className="overflow-hidden flex-1 flex flex-col relative w-full h-full pb-2 select-none group"
+        onMouseLeave={() => onHoverChange(null)}
+      >
         {/* Subtle scroll hint appears on hover over the grid area */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-5 pointer-events-none transition-opacity duration-1000 flex flex-col items-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-5 pointer-events-none transition-opacity duration-1000 flex flex-col items-center z-0">
           <span className="text-4xl text-gray-400 font-bold tracking-widest uppercase">Scroll</span>
         </div>
 
@@ -106,7 +107,7 @@ export function CalendarGrid({
         </div>
 
         {/* Grid Container with Vertical Slide Animation */}
-        <div className="relative flex-1 min-h-[260px] md:min-h-[300px] w-full mt-2">
+        <div className="relative flex-1 min-h-[260px] md:min-h-[300px] w-full mt-2 z-10">
           <div 
             key={`${currentYear}-${currentMonth}`}
             className="grid grid-cols-7 gap-y-2 absolute inset-0"
@@ -154,10 +155,14 @@ export function CalendarGrid({
                   isInRange={isInRange}
                   isHoverPreview={isHoverPreview}
                   hasNote={hasNote}
-                  onClick={(d) => handleDateClick(d)}
+                  onClick={(d) => {
+                    handleDateClick(d);
+                    onHoverChange(null);
+                  }}
                   onMouseEnter={(d) => {
-                    handleDateHover(d);
-                    onHoverChange(d);
+                    if (selectionStart && !selectionEnd) {
+                      onHoverChange(d);
+                    }
                   }}
                 />
               );

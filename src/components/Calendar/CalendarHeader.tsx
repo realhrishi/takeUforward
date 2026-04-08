@@ -21,11 +21,11 @@ export function CalendarHeader({ monthName, year, onNext, onPrev }: CalendarHead
         </h2>
       </div>
       
-      <div className="flex gap-2 items-center mb-1 bg-gray-50/80 dark:bg-[#DFDFDF] p-1 rounded-full shadow-inner-soft border border-gray-100 dark:border-[#CCCCCC]">
-        <IconButton onClick={onPrev} aria-label="Previous month" className="w-8 h-8 md:w-10 md:h-10 rounded-full border-none bg-white dark:bg-[#F0F0F0] hover:bg-blue-50 dark:hover:bg-blue-50 hover:text-blue-600 dark:hover:text-blue-700 text-gray-600 dark:text-[#555] shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-400">
+      <div className="flex gap-3 items-center mb-1">
+        <IconButton onClick={onPrev} aria-label="Previous month" className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-200 dark:border-gray-300 bg-white dark:bg-[#F8F8F8] hover:bg-gray-50 dark:hover:bg-[#EAEAEA] text-gray-700 dark:text-[#333333] shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-300 focus:ring-2 focus:ring-blue-400">
           <ChevronLeft className="w-5 h-5 ml-[-2px]" />
         </IconButton>
-        <IconButton onClick={onNext} aria-label="Next month" className="w-8 h-8 md:w-10 md:h-10 rounded-full border-none bg-white dark:bg-[#F0F0F0] hover:bg-blue-50 dark:hover:bg-blue-50 hover:text-blue-600 dark:hover:text-blue-700 text-gray-600 dark:text-[#555] shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-400">
+        <IconButton onClick={onNext} aria-label="Next month" className="w-9 h-9 md:w-10 md:h-10 rounded-full border border-gray-200 dark:border-gray-300 bg-white dark:bg-[#F8F8F8] hover:bg-gray-50 dark:hover:bg-[#EAEAEA] text-gray-700 dark:text-[#333333] shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all duration-300 focus:ring-2 focus:ring-blue-400">
           <ChevronRight className="w-5 h-5 ml-[2px]" />
         </IconButton>
       </div>

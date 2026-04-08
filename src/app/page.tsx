@@ -6,6 +6,7 @@ import { CalendarGrid } from '../components/Calendar/CalendarGrid';
 import { usePersistence } from '../hooks/usePersistence';
 import { SpiralBinding } from '../components/UI/SpiralBinding';
 import { NotesPanel } from '../components/Notes/NotesPanel';
+import { LiveClock } from '../components/UI/LiveClock';
 import { Note } from '../lib/types';
 import { Sun, Moon } from 'lucide-react';
 
@@ -65,8 +66,38 @@ export default function Home() {
           
           {/* Right Side: Calendar & Notes Container (60%) */}
           <div className="w-full md:w-[60%] flex flex-col p-6 lg:p-10 bg-white dark:bg-[#EAEAEA] relative shadow-[0_0_30px_rgba(0,0,0,0.03)] dark:shadow-[-5px_0_20px_rgba(0,0,0,0.1)] z-20 md:rounded-l-[12px] border-l border-gray-50 dark:border-[#E0E0E0] transition-colors duration-500">
-            <div className="w-full transition-all duration-500">
+            
+            {/* Utilities Header: Clock and Selection Reset */}
+            <div className="flex justify-between items-center w-full mb-6 mt-[-8px]">
+               <div className="flex items-center">
+                  {selection.start && (
+                    <button 
+                      onClick={() => { setSelection({start: null, end: null}); setHoverDate(null); }} 
+                      className="px-3 py-1.5 text-[11px] md:text-sm font-medium border border-gray-200 dark:border-[#CCCCCC] rounded-full text-gray-500 dark:text-[#555555] hover:bg-gray-50 dark:hover:bg-[#DDDDDD] hover:text-red-500 dark:hover:text-red-600 transition-colors shadow-sm"
+                    >
+                      Clear Selection
+                    </button>
+                  )}
+               </div>
+               <div className="flex items-center gap-2 md:gap-3">
+                  <button 
+                    onClick={() => {
+                       const d = new Date();
+                       setDisplayedMonth(d.getMonth());
+                       setDisplayedYear(d.getFullYear());
+                    }}
+                    className="px-3 py-1.5 text-[11px] md:text-sm font-semibold border border-blue-200 dark:border-blue-300 bg-blue-50 dark:bg-blue-100 text-blue-600 dark:text-blue-800 rounded-full hover:bg-blue-100 dark:hover:bg-blue-200 transition-colors shadow-sm"
+                  >
+                    Today
+                  </button>
+                  <LiveClock />
+               </div>
+            </div>
+
+            <div className="w-full transition-all duration-500 flex-1 flex flex-col">
               <CalendarGrid 
+                initialMonth={displayedMonth}
+                initialYear={displayedYear}
                 notes={notes}
                 selectionStart={selection.start}
                 selectionEnd={selection.end}
