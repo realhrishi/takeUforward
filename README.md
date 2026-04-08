@@ -132,7 +132,7 @@ npm run dev
 
 ## 🎥 Demo
 
-👉 (Add your demo video link here)
+https://youtu.be/lot0hmm1hrw
 
 ---
 
