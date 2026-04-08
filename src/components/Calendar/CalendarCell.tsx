@@ -23,7 +23,7 @@ export function CalendarCell({
   if (!isCurrentMonth) {
     return (
       <div className="relative w-full h-10 md:h-12 flex items-center justify-center">
-        <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-[13px] md:text-[14px] text-gray-200 font-medium">
+        <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-[13px] md:text-[14px] text-gray-200 dark:text-[#555555] font-medium select-none pointer-events-none">
           {format(date, 'd')}
         </div>
       </div>
@@ -33,11 +33,11 @@ export function CalendarCell({
   const isToday = format(new Date(), 'yyyy-MM-dd') === dateStr;
 
   const innerStateClasses = clsx({
-    'text-gray-300 cursor-not-allowed': isPast,
-    'text-gray-700 hover:bg-gray-100 hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    'text-gray-300 dark:text-[#555555] cursor-not-allowed': isPast,
+    'text-gray-700 dark:text-[#EAEAEA] hover:bg-gray-100 dark:hover:bg-[#333333] hover:scale-[1.05] hover:shadow-sm hover:z-20': !isPast && !isStart && !isEnd && !isInRange && !isHoverPreview,
     'bg-blue-500 text-white shadow-md z-20': isStart || isEnd,
-    'text-blue-700': (isInRange || isHoverPreview) && !isStart && !isEnd,
-    'ring-2 ring-gray-200 ring-offset-1': isToday && !isStart && !isEnd && !isInRange && !isHoverPreview,
+    'text-blue-700 dark:text-blue-300': (isInRange || isHoverPreview) && !isStart && !isEnd,
+    'ring-2 ring-gray-200 dark:ring-[#444444] ring-offset-1 dark:ring-offset-[#222222]': isToday && !isStart && !isEnd && !isInRange && !isHoverPreview,
   });
 
   return (
@@ -53,13 +53,13 @@ export function CalendarCell({
       {/* Background connector for range when start or end is selected */}
       {(isInRange || isStart || isEnd || isHoverPreview) && (
         <div className={clsx(
-          "absolute top-1/2 -translate-y-1/2 h-8 md:h-9 bg-blue-50/80 -z-10 transition-all duration-300",
+          "absolute top-1/2 -translate-y-1/2 h-8 md:h-9 -z-10 transition-all duration-300",
+          (isHoverPreview && !isInRange) ? "bg-blue-50/50 dark:bg-blue-900/40" : "bg-blue-50/80 dark:bg-blue-900/70",
           {
             'left-1/2 right-0 rounded-l-full': isStart && !isEnd && (isInRange || isHoverPreview),
             'left-0 right-1/2 rounded-r-full': isEnd && !isStart,
             'left-0 right-0': (isInRange || isHoverPreview) && !isStart && !isEnd,
-            'inset-0 bg-transparent': isStart && isEnd,
-            'left-0 right-0 border-b-2 border-dashed border-blue-400 bg-transparent': isHoverPreview && !isStart && !isEnd && !isInRange
+            'inset-0 bg-transparent': isStart && isEnd
           }
         )} />
       )}
@@ -71,7 +71,7 @@ export function CalendarCell({
         {hasNote && (
           <div className={clsx(
             "absolute bottom-0 w-1.5 h-1.5 rounded-full z-20 shadow-sm",
-            (isStart || isEnd) ? "bg-white" : "bg-blue-500"
+            (isStart || isEnd) ? "bg-white" : "bg-blue-500 shadow-blue-500/50"
           )} />
         )}
       </div>

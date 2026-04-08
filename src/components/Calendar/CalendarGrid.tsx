@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { CalendarHeader } from './CalendarHeader';
 import { CalendarCell } from './CalendarCell';
 import { useCalendar } from '../../hooks/useCalendar';
@@ -39,21 +39,36 @@ export function CalendarGrid({
     handleDateClick, handleDateHover 
   } = useDateRange(selectionStart, selectionEnd, onSelectionChange);
 
-  const [animDirection, setAnimDirection] = useState<'left' | 'right' | null>(null);
+  const [animDirection, setAnimDirection] = useState<'up' | 'down' | null>(null);
+  const lastScrollTime = useRef(0);
 
   const onNext = () => {
-    setAnimDirection('right');
+    setAnimDirection('up');
     nextMonth();
   };
 
   const onPrev = () => {
-    setAnimDirection('left');
+    setAnimDirection('down');
     prevMonth();
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const now = Date.now();
+    if (now - lastScrollTime.current < 600) return; // Wait 600ms between scrolls to prevent hyper-scrolling
+    
+    // Some trackpads send small deltas, require a reasonable threshold
+    if (e.deltaY > 15) {
+      onNext();
+      lastScrollTime.current = now;
+    } else if (e.deltaY < -15) {
+      onPrev();
+      lastScrollTime.current = now;
+    }
   };
 
   useEffect(() => {
     if (animDirection) {
-      const timer = setTimeout(() => setAnimDirection(null), 300);
+      const timer = setTimeout(() => setAnimDirection(null), 400);
       return () => clearTimeout(timer);
     }
   }, [animDirection, currentMonth]);
@@ -64,7 +79,10 @@ export function CalendarGrid({
   ];
 
   return (
-    <div className="flex flex-col w-full h-full bg-white relative pt-1 md:pt-0">
+    <div 
+      className="flex flex-col w-full h-full relative pt-1 md:pt-0" 
+      onWheel={handleWheel}
+    >
       <CalendarHeader 
         monthName={monthNames[currentMonth]} 
         year={currentYear} 
@@ -72,27 +90,32 @@ export function CalendarGrid({
         onPrev={onPrev} 
       />
       
-      <div className="overflow-hidden flex-1 flex flex-col relative w-full h-full pb-2">
+      <div className="overflow-hidden flex-1 flex flex-col relative w-full h-full pb-2 select-none group">
+        {/* Subtle scroll hint appears on hover over the grid area */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-5 pointer-events-none transition-opacity duration-1000 flex flex-col items-center">
+          <span className="text-4xl text-gray-400 font-bold tracking-widest uppercase">Scroll</span>
+        </div>
+
         {/* Day of Week Headers */}
-        <div className="grid grid-cols-7 mb-4">
+        <div className="grid grid-cols-7 mb-4 relative z-10">
           {['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map((d, i) => (
-            <div key={i} className={`flex justify-center text-[10px] md:text-xs font-semibold tracking-wider ${i >= 5 ? 'text-gray-400' : 'text-gray-500'}`}>
+            <div key={i} className={`flex justify-center text-[10px] md:text-xs font-semibold tracking-wider ${i >= 5 ? 'text-blue-600 dark:text-[#EAEAEA]' : 'text-gray-500 dark:text-[#A0A0A0]'}`}>
               {d}
             </div>
           ))}
         </div>
 
-        {/* Grid Container with Slide Animation */}
+        {/* Grid Container with Vertical Slide Animation */}
         <div className="relative flex-1 min-h-[260px] md:min-h-[300px] w-full mt-2">
           <div 
             key={`${currentYear}-${currentMonth}`}
             className="grid grid-cols-7 gap-y-2 absolute inset-0"
             style={{
-              animation: animDirection === 'right' 
-                ? 'slideLeft 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards' 
-                : animDirection === 'left' 
-                  ? 'slideRight 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards' 
-                  : 'fadeIn 300ms ease-out forwards'
+              animation: animDirection === 'up' 
+                ? 'slideUp 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards' 
+                : animDirection === 'down' 
+                  ? 'slideDown 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards' 
+                  : 'fadeIn 400ms ease-out forwards'
             }}
             role="grid"
           >
@@ -144,17 +167,17 @@ export function CalendarGrid({
       </div>
       
       <style dangerouslySetInnerHTML={{__html: `
-        @keyframes slideLeft {
-          0% { opacity: 0; transform: translateX(15px); }
-          100% { opacity: 1; transform: translateX(0); }
+        @keyframes slideUp {
+          0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        @keyframes slideRight {
-          0% { opacity: 0; transform: translateX(-15px); }
-          100% { opacity: 1; transform: translateX(0); }
+        @keyframes slideDown {
+          0% { opacity: 0; transform: translateY(-20px) scale(0.98); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          from { opacity: 0; transform: scale(0.98); }
+          to { opacity: 1; transform: scale(1); }
         }
       `}} />
     </div>
